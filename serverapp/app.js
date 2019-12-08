@@ -116,8 +116,8 @@ let transporter = nodemailer.createTransport({
 async function main(post) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"Dennis Mullen - ACE Singing Awards Form" <dkmullen@gmail.com>',
-    to: 'dkmullen@gmail.com',
+    from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Singing Awards!',
     text: 'No plain text version', // plain text body
     html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
@@ -136,7 +136,7 @@ async function main(post) {
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
-    from: '"Dennis Mullen - ACE Singing Awards Form" <dkmullen@gmail.com>',
+    from: '"ACE Singing Awards Form" <jay@aceknox.com>',
     to: `${post.email}`,
     subject: 'You have registered for the ACE Singing Awards!',
     text: 'No plain text version',
@@ -158,8 +158,8 @@ async function main(post) {
 
 async function acting(post) {
   let info = await transporter.sendMail({
-    from: '"Dennis Mullen - ACE Acting Awards Form" <dkmullen@gmail.com>',
-    to: 'dkmullen@gmail.com',
+    from: '"ACE Acting Awards Form" <jay@aceknox.com>',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Acting Awards!',
     text: 'No plain text version',
     html: `<b>ACE Acting Awards Sign-up</b> (from aceknox.com)<br />
@@ -178,7 +178,7 @@ async function acting(post) {
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
-    from: '"ACE Acting Awards Form" <dkmullen@gmail.com>',
+    from: '"ACE Acting Awards Form" <jay@aceknox.com>',
     to: `${post.email}`,
     subject: 'You have registered for the ACE Acting Awards!',
     text: 'No plain text version',
@@ -200,8 +200,8 @@ async function acting(post) {
 
 async function actingteam(post) {
   let info = await transporter.sendMail({
-    from: '"ACE Acting (Team) Awards Form" <dkmullen@gmail.com>',
-    to: 'dkmullen@gmail.com',
+    from: '"ACE Acting (Team) Awards Form" <jay@aceknox.com>',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Acting (Team) Awards!',
     text: 'No plain text version',
     html: `<b>ACE Acting (Team) Awards Sign-up</b> (from aceknox.com)<br />
@@ -218,7 +218,7 @@ async function actingteam(post) {
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
-    from: '"ACE Acting (Team) Awards Form" <dkmullen@gmail.com>',
+    from: '"ACE Acting (Team) Awards Form" <jay@aceknox.com>',
     to: `${post.contactEmail}`,
     subject: 'You have registered for the ACE Acting (Team) Awards!',
     text: 'No plain text version',
