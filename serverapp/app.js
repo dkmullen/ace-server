@@ -45,7 +45,8 @@ app.post("/api/posts", (req, res, next) => {
     rising: req.body.rising,
     individualVocal: req.body.individualVocal,
     individualInstrumental: req.body.individualInstrumental,
-    group: req.body.group
+    group: req.body.group,
+    musicalTheatre: true
   })
   post.save();
   res.status(201).json({
@@ -118,7 +119,7 @@ async function main(post) {
   let info = await transporter.sendMail({
     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
     to: 'jay@aceknox.com, dkmullen@gmail.com',
-    subject: 'A new contestant for the ACE Singing Awards!',
+    subject: 'A new contestant for the ACE Singing Awards, Musical Theatre cetegory!',
     text: 'No plain text version', // plain text body
     html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
             <p>A new contestant has signed up for the ACE Singing Awards:</p>
@@ -128,17 +129,19 @@ async function main(post) {
             Phone: ${post.phone}<br />
             Grade: ${post.grade}<br />
             School: ${post.school}<br /><br />
-            Rising Star: ${post.rising ? 'X' : ''}<br />
-            Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
-            Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
-            Group: ${post.group ? 'X' : ''}<br />`
+            Category: Musical Theatre`
+
+            // Rising Star: ${post.rising ? 'X' : ''}<br />
+            // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
+            // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
+            // Group: ${post.group ? 'X' : ''}<br />
   });
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
     to: `${post.email}`,
-    subject: 'You have registered for the ACE Singing Awards!',
+    subject: 'You have registered for the ACE Singing Awards (Musical Theatre category)!',
     text: 'No plain text version',
     html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
             <p>You have successfully signed up for the ACE Singing Awards:</p>
@@ -148,10 +151,12 @@ async function main(post) {
             Phone: ${post.phone}<br />
             Grade: ${post.grade}<br />
             School: ${post.school}<br /><br />
-            Rising Star: ${post.rising ? 'X' : ''}<br />
-            Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
-            Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
-            Group: ${post.group ? 'X' : ''}<br />`
+            Be sure to submit your audition video, or a link to it, to jay@aceknox.com<br />
+            by 11:59pm on Friday, January 3, 2020. Good luck!`
+            // Rising Star: ${post.rising ? 'X' : ''}<br />
+            // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
+            // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
+            // Group: ${post.group ? 'X' : ''}<br />
   });
   console.log('Message sent: %s', resMsg.messageId);
 }

@@ -10,7 +10,8 @@ const postSchema = mongoose.Schema({
     rising: Boolean,
     individualVocal: Boolean,
     individualInstrumental: Boolean,
-    group: Boolean
+    group: Boolean,
+    musicalTheatre: Boolean
 });
 
 module.exports = mongoose.model('Post', postSchema);
