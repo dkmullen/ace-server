@@ -219,6 +219,7 @@ async function main(post) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+    // to: 'jay@aceknox.com, dkmullen@gmail.com',
     to: 'dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Singing Awards, Musical Theatre cetegory!',
     text: 'No plain text version', // plain text body
@@ -230,12 +231,11 @@ async function main(post) {
             Phone: ${post.phone}<br />
             Grade: ${post.grade}<br />
             School: ${post.school}<br /><br />
-            Category: Musical Theatre`
-
-            // Rising Star: ${post.rising ? 'X' : ''}<br />
-            // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
-            // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
-            // Group: ${post.group ? 'X' : ''}<br />
+            Category: Musical Theatre
+            Rising Star: ${post.rising ? 'X' : ''}<br />
+            Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
+            Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
+            Group: ${post.group ? 'X' : ''}<br />`
   });
   console.log('Message sent: %s', info.messageId);
 
@@ -253,11 +253,11 @@ async function main(post) {
             Grade: ${post.grade}<br />
             School: ${post.school}<br /><br />
             Be sure to submit your audition video, or a link to it, to jay@aceknox.com<br />
-            by 11:59pm on Friday, January 3, 2020. Good luck!`
-            // Rising Star: ${post.rising ? 'X' : ''}<br />
-            // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
-            // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
-            // Group: ${post.group ? 'X' : ''}<br />
+            by 11:59pm on Friday, January 3, 2020. Good luck!
+            Rising Star: ${post.rising ? 'X' : ''}<br />
+            Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
+            Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
+            Group: ${post.group ? 'X' : ''}<br />`
   });
   console.log('Message sent: %s', resMsg.messageId);
 }
