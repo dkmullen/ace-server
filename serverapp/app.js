@@ -58,18 +58,27 @@ app.post("/api/theatre-class-posts", (req, res, next) => {
     }
 
   })
-  console.log(tcpost.student3.name === null)
-  if (tcpost.student2.name === null || tcpost.student2.name === '' ) { delete tcpost.student2};
-  if (tcpost.student3.name === null || tcpost.student3.name === '' ) { delete tcpost.student3};
-  if (tcpost.student4.name === null || tcpost.student4.name === '' ) { delete tcpost.email};
-  // if (!tcpost.student3.name) { delete tcpost.student3};
-  // if (!tcpost.student4.name) { delete tcpost.student4};
-  console.log(tcpost)
+
+  let emailObj = { parent: tcpost.parent, email: tcpost.email, phone: tcpost.phone };
+  let studentStr = `${tcpost.student1.name} - ${tcpost.student1.age}<br />`
+
+  if (tcpost.student2.name !== null && tcpost.student2.name !== '' ) {
+    studentStr += `${tcpost.student2.name} - ${tcpost.student2.age}<br />`
+  };
+  if (tcpost.student3.name !== null && tcpost.student3.name !== '' ) { 
+    studentStr += `${tcpost.student3.name} - ${tcpost.student3.age}<br />`
+  };
+  if (tcpost.student4.name !== null && tcpost.student4.name !== '' ) { 
+    studentStr += `${tcpost.student4.name} - ${tcpost.student4.age}<br />`
+  };
+  emailObj.studentStr = {studentStr: studentStr}
+
   tcpost.save();
+  console.log(res)
   res.status(201).json({
     message: 'Post added successfully'
   });
-  theatreClass(tcpost).catch(console.error);
+  theatreClass(emailObj).catch(console.error);
 });
 
 // Singing entry form
@@ -152,43 +161,57 @@ let transporter = nodemailer.createTransport({
 
 // async..await is not allowed in global scope, must use a wrapper
 async function theatreClass(post) { 
-  console.log(post.student2, post.student2.name)
+  console.log(post)
   // send mail with defined transport object
-//   let info = await transporter.sendMail({
-//     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
-//     to: 'dkmullen@gmail.com',
-//     subject: 'A new registration for the ACE Spring Theatre Camp!',
-//     text: 'No plain text version', // plain text body
-//     html: `<b>ACE Theatre Camp Sign-up</b> (from aceknox.com)<br />
-//             <p>A new registration has arrived for the ACE Theatre Camp:</p>
-//             Parent: ${post.parent}<br />
-//             Phone: ${post.phone}<br />
-//             Email: ${post.email}<br />
-// `
-//   });
-//   console.log('Message sent: %s', info.messageId);
+  let info = await transporter.sendMail({
+    from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+    to: 'dkmullen@gmail.com',
+    subject: 'A new registration for the ACE Theatre Camp for Young People!',
+    text: 'No plain text version', // plain text body
+    html: `<b>ACE Theatre Camp Sign-up</b> (from aceknox.com)<br />
+            <p>A new registration has arrived for the ACE Theatre Camp:</p>
+            Parent: ${post.parent}<br />
+            Phone: ${post.phone}<br />
+            Email: ${post.email}<br />
+            <br />
+            ${post.studentStr.studentStr}<br />
+  
+`
+  });
+  console.log('Message sent: %s', info.messageId);
 
-  // let resMsg = await transporter.sendMail({
-  //   from: '"ACE Singing Awards Form" <jay@aceknox.com>',
-  //   to: `${post.email}`,
-  //   subject: 'You have registered for the ACE Singing Awards (Musical Theatre category)!',
-  //   text: 'No plain text version',
-  //   html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
-  //           <p>You have successfully signed up for the ACE Singing Awards:</p>
-  //           Name: ${post.name}<br />
-  //           Age: ${post.age}<br />
-  //           Email: ${post.email}<br />
-  //           Phone: ${post.phone}<br />
-  //           Grade: ${post.grade}<br />
-  //           School: ${post.school}<br /><br />
-  //           Be sure to submit your audition video, or a link to it, to jay@aceknox.com<br />
-  //           by 11:59pm on Friday, January 3, 2020. Good luck!`
-  //           // Rising Star: ${post.rising ? 'X' : ''}<br />
-  //           // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
-  //           // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
-  //           // Group: ${post.group ? 'X' : ''}<br />
-  // });
-  // console.log('Message sent: %s', resMsg.messageId);
+  let resMsg = await transporter.sendMail({
+    from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+    to: `${post.email}`,
+    subject: 'You have registered for the ACE Theatre Camp for Young People',
+    text: 'No plain text version',
+    html: `<b>ACE Theatre Camp Sign-up</b> (from aceknox.com)<br />
+            <p>You have successfully submitted the registration for the ACE Theatre Camp for Young People:</p>
+            Parent/Guardian: ${post.parent}<br />
+            Email: ${post.email}<br />
+            Phone: ${post.phone}<br /><br />
+            ${post.studentStr.studentStr}<br />
+
+     
+
+            March 28—May 2 (Six Saturdays)<br />
+            Ages 6-9: 8am-11am<br />
+            Ages 10-14: 1pm-4pm<br />
+            <b>Cost: $195 per child</b> <br />
+           
+            <div>Online payment is coming soon. Or reserve your spot by sending a check or e-check ($195 per child) to:
+            <div class="spacer"></div>
+        
+            <p> ACE: Alliance for Creative Excellence<br />
+            234 Morrell Rd #189<br/>Knoxville, TN 37919</p> </div>
+           
+            <br />
+
+            The camp will take place at 4434 Middlebrook Pike.
+For more information contact Jay Apking (jay@aceknox.com) 
+            `
+  });
+  console.log('Message sent: %s', resMsg.messageId);
 }
 
 
