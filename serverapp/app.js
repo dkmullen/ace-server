@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 const Post = require('./models/singingposts');
 const ActingPost = require('./models/actingposts');
 const ActingTeamPost = require('./models/actingteamposts');
+const TheatreCampPost = require('./models/theatre-class-posts');
 
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
@@ -31,6 +32,44 @@ app.use((req, res, next) => {
     "GET, POST, PATCH, DELETE, OPTIONS"
   );
   next();
+});
+
+// Theatre camp entry form
+app.post("/api/theatre-class-posts", (req, res, next) => {
+  const tcpost = new TheatreCampPost({
+    parent: req.body.parent,
+    email: req.body.email,
+    phone: req.body.phone,
+    student1: {
+      name: req.body.student1.name,
+      age: req.body.student1.age
+    },
+    student2: {
+      name: req.body.student2.name,
+      age: req.body.student2.age
+    },
+    student3: {
+      name: req.body.student3.name,
+      age: req.body.student3.age
+    },
+    student4: {
+      name: req.body.student4.name,
+      age: req.body.student4.age
+    }
+
+  })
+  console.log(tcpost.student3.name === null)
+  if (tcpost.student2.name === null || tcpost.student2.name === '' ) { delete tcpost.student2};
+  if (tcpost.student3.name === null || tcpost.student3.name === '' ) { delete tcpost.student3};
+  if (tcpost.student4.name === null || tcpost.student4.name === '' ) { delete tcpost.email};
+  // if (!tcpost.student3.name) { delete tcpost.student3};
+  // if (!tcpost.student4.name) { delete tcpost.student4};
+  console.log(tcpost)
+  tcpost.save();
+  res.status(201).json({
+    message: 'Post added successfully'
+  });
+  theatreClass(tcpost).catch(console.error);
 });
 
 // Singing entry form
@@ -78,7 +117,6 @@ app.post("/api/acting-posts", (req, res, next) => {
 
 // Acting team entry form
 app.post("/api/acting-team-posts", (req, res, next) => {
-  console.log(req.body.contactName)
   const actingteampost = new ActingTeamPost({
     school: req.body.school,
     contactName: req.body.contactName,
@@ -97,7 +135,6 @@ app.post("/api/acting-team-posts", (req, res, next) => {
   res.status(201).json({
     message: 'Post added successfully'
   });
-  console.log(actingteampost)
   actingteam(actingteampost).catch(console.error);
 });
 
@@ -114,11 +151,52 @@ let transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
+async function theatreClass(post) { 
+  console.log(post.student2, post.student2.name)
+  // send mail with defined transport object
+//   let info = await transporter.sendMail({
+//     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+//     to: 'dkmullen@gmail.com',
+//     subject: 'A new registration for the ACE Spring Theatre Camp!',
+//     text: 'No plain text version', // plain text body
+//     html: `<b>ACE Theatre Camp Sign-up</b> (from aceknox.com)<br />
+//             <p>A new registration has arrived for the ACE Theatre Camp:</p>
+//             Parent: ${post.parent}<br />
+//             Phone: ${post.phone}<br />
+//             Email: ${post.email}<br />
+// `
+//   });
+//   console.log('Message sent: %s', info.messageId);
+
+  // let resMsg = await transporter.sendMail({
+  //   from: '"ACE Singing Awards Form" <jay@aceknox.com>',
+  //   to: `${post.email}`,
+  //   subject: 'You have registered for the ACE Singing Awards (Musical Theatre category)!',
+  //   text: 'No plain text version',
+  //   html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
+  //           <p>You have successfully signed up for the ACE Singing Awards:</p>
+  //           Name: ${post.name}<br />
+  //           Age: ${post.age}<br />
+  //           Email: ${post.email}<br />
+  //           Phone: ${post.phone}<br />
+  //           Grade: ${post.grade}<br />
+  //           School: ${post.school}<br /><br />
+  //           Be sure to submit your audition video, or a link to it, to jay@aceknox.com<br />
+  //           by 11:59pm on Friday, January 3, 2020. Good luck!`
+  //           // Rising Star: ${post.rising ? 'X' : ''}<br />
+  //           // Individual Vocal: ${post.individualVocal ? 'X' : ''}<br />
+  //           // Individual Instrumental: ${post.individualInstrumental ? 'X' : ''}<br />
+  //           // Group: ${post.group ? 'X' : ''}<br />
+  // });
+  // console.log('Message sent: %s', resMsg.messageId);
+}
+
+
 async function main(post) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
-    to: 'jay@aceknox.com, dkmullen@gmail.com',
+    to: 'dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Singing Awards, Musical Theatre cetegory!',
     text: 'No plain text version', // plain text body
     html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
@@ -164,7 +242,7 @@ async function main(post) {
 async function acting(post) {
   let info = await transporter.sendMail({
     from: '"ACE Acting Awards Form" <jay@aceknox.com>',
-    to: 'jay@aceknox.com, dkmullen@gmail.com',
+    to: 'dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Acting Awards!',
     text: 'No plain text version',
     html: `<b>ACE Acting Awards Sign-up</b> (from aceknox.com)<br />
@@ -206,7 +284,7 @@ async function acting(post) {
 async function actingteam(post) {
   let info = await transporter.sendMail({
     from: '"ACE Acting (Team) Awards Form" <jay@aceknox.com>',
-    to: 'jay@aceknox.com, dkmullen@gmail.com',
+    to: 'dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Acting (Team) Awards!',
     text: 'No plain text version',
     html: `<b>ACE Acting (Team) Awards Sign-up</b> (from aceknox.com)<br />
