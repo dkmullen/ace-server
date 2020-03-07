@@ -219,8 +219,7 @@ async function main(post) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"ACE Singing Awards Form" <jay@aceknox.com>',
-    // to: 'jay@aceknox.com, dkmullen@gmail.com',
-    to: 'dkmullen@gmail.com',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Singing Awards, Musical Theatre cetegory!',
     text: 'No plain text version', // plain text body
     html: `<b>ACE Singing Awards Sign-up</b> (from aceknox.com)<br />
