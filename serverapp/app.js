@@ -199,7 +199,7 @@ async function theatreClass(post) {
             Ages 10-14: 1pm-4pm<br />
             <b>Cost: $195 per child</b> <br />
            
-            <div>Online payment is coming soon. Or reserve your spot by sending a check or e-check ($195 per child) to:
+            <div>Reserve your spot paying online at aceknox.com/pay or by sending a check or e-check ($195 per child) to:
             <div class="spacer"></div>
         
             <p> ACE: Alliance for Creative Excellence<br />
