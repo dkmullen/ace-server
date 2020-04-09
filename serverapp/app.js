@@ -181,7 +181,7 @@ let transporter = nodemailer.createTransport({
 async function instrumental(post) {
   let info = await transporter.sendMail({
     from: '"ACE Safer@Home Instrumental Form" <jay@aceknox.com>',
-    to: 'dkmullen@gmail.com',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Safer@Home Instumental Awards!',
     text: 'No plain text version',
     html: `<b>ACE Instrumental Contest Sign-up</b> (from aceknox.com)<br />
