@@ -19,6 +19,7 @@ const Post = require('./models/singingposts');
 const ActingPost = require('./models/actingposts');
 const ActingTeamPost = require('./models/actingteamposts');
 const TheatreCampPost = require('./models/theatre-class-posts');
+const InstrumentalPost = require('./models/instrumentalpost');
 
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
@@ -32,6 +33,23 @@ app.use((req, res, next) => {
     "GET, POST, PATCH, DELETE, OPTIONS"
   );
   next();
+});
+
+// Instrumental entry form (individual)
+app.post("/api/instrumental-posts", (req, res, next) => {
+  const instrumentalpost = new InstrumentalPost({
+    name: req.body.name,
+    email: req.body.email,
+    age: req.body.age,
+    grade: req.body.grade,
+    school: req.body.school,
+    link: req.body.link,
+  })
+  instrumentalpost.save();
+  res.status(201).json({
+    message: 'Post added successfully'
+  });
+  instrumental(instrumentalpost).catch(console.error);
 });
 
 // Theatre camp entry form
@@ -160,6 +178,40 @@ let transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
+async function instrumental(post) {
+  let info = await transporter.sendMail({
+    from: '"ACE Safer@Home Instrumental Form" <jay@aceknox.com>',
+    to: 'dkmullen@gmail.com',
+    subject: 'A new contestant for the ACE Safer@Home Instumental Awards!',
+    text: 'No plain text version',
+    html: `<b>ACE Instrumental Contest Sign-up</b> (from aceknox.com)<br />
+            <p>A new contestant has signed up for the ACE Acting Awards:</p>
+            Name: ${post.name}<br />
+            Age: ${post.age}<br />
+            Email: ${post.email}<br />
+            Grade: ${post.grade}<br />
+            School: ${post.school}<br /><br />
+            Video Link: ${post.link}<br />`
+  });
+  console.log('Message sent: %s', info.messageId);
+
+  let resMsg = await transporter.sendMail({
+    from: '"ACE Safer@Home Instrumental Contest" <jay@aceknox.com>',
+    to: `${post.email}`,
+    subject: 'You have registered for the ACE Safer@Home Instrumental Contest!',
+    text: 'No plain text version',
+    html: `<b>ACE Safer@Home Instrumental Contest</b> (from aceknox.com)<br />
+            <p>You have successfully registered for the ACE Safer@Home Instrumental Contest:</p>
+            Name: ${post.name}<br />
+            Age: ${post.age}<br />
+            Email: ${post.email}<br />
+            Grade: ${post.grade}<br />
+            School: ${post.school}<br /><br />
+            Video Link: ${post.link}<br />`
+  });
+  console.log('Message sent: %s', resMsg.messageId);
+}
+
 async function theatreClass(post) { 
   console.log(post)
   // send mail with defined transport object
