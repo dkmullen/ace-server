@@ -20,6 +20,7 @@ const ActingPost = require('./models/actingposts');
 const ActingTeamPost = require('./models/actingteamposts');
 const TheatreCampPost = require('./models/theatre-class-posts');
 const InstrumentalPost = require('./models/instrumentalpost');
+const DancePost = require('./models/saferathomeposts');
 
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
@@ -35,8 +36,25 @@ app.use((req, res, next) => {
   next();
 });
 
+// Dance entry form (individual)
+app.post("/api/dance-posts", (req, res, next) => {
+  const dancepost = new DancePost({
+    name: req.body.name,
+    email: req.body.email,
+    age: req.body.age,
+    grade: req.body.grade,
+    school: req.body.school,
+    link: req.body.link,
+  })
+  dancepost.save();
+  res.status(201).json({
+    message: 'Post added successfully'
+  });
+  dance(dancepost).catch(console.error);
+});
+
 // Instrumental entry form (individual)
-app.post("/api/instrumental-posts", (req, res, next) => {
+app.post("/api/shakespeare-posts", (req, res, next) => {
   const instrumentalpost = new InstrumentalPost({
     name: req.body.name,
     email: req.body.email,
@@ -178,14 +196,14 @@ let transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-async function instrumental(post) {
+async function dance(post) {
   let info = await transporter.sendMail({
-    from: '"ACE Safer@Home Instrumental Form" <jay@aceknox.com>',
-    to: 'jay@aceknox.com, dkmullen@gmail.com',
-    subject: 'A new contestant for the ACE Safer@Home Instumental Awards!',
+    from: '"ACE Safer@Home Dance Form" <jay@aceknox.com>',
+    to: 'dkmullen@gmail.com',
+    subject: 'A new contestant for the ACE Safer@Home Dance Contest!',
     text: 'No plain text version',
-    html: `<b>ACE Instrumental Contest Sign-up</b> (from aceknox.com)<br />
-            <p>A new contestant has signed up for the ACE Acting Awards:</p>
+    html: `<b>ACE Dance Contest Sign-up</b> (from aceknox.com)<br />
+            <p>A new contestant has signed up for the ACE Dance Contest:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
@@ -196,12 +214,47 @@ async function instrumental(post) {
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
-    from: '"ACE Safer@Home Instrumental Contest" <jay@aceknox.com>',
+    from: '"ACE Safer@Home Dance Contest" <jay@aceknox.com>',
     to: `${post.email}`,
-    subject: 'You have registered for the ACE Safer@Home Instrumental Contest!',
+    subject: 'You have registered for the ACE Safer@Home Dance Contest!',
     text: 'No plain text version',
-    html: `<b>ACE Safer@Home Instrumental Contest</b> (from aceknox.com)<br />
-            <p>You have successfully registered for the ACE Safer@Home Instrumental Contest:</p>
+    html: `<b>ACE Safer@Home Dance Contest</b> (from aceknox.com)<br />
+            <p>You have successfully registered for the ACE Safer@Home Dance Contest:</p>
+            Name: ${post.name}<br />
+            Age: ${post.age}<br />
+            Email: ${post.email}<br />
+            Grade: ${post.grade}<br />
+            School: ${post.school}<br /><br />
+            Video Link: ${post.link}<br />`
+  });
+  console.log('Message sent: %s', resMsg.messageId);
+}
+
+// async..await is not allowed in global scope, must use a wrapper
+async function instrumental(post) {
+  let info = await transporter.sendMail({
+    from: '"ACE Safer@Home Shakespeare Form" <jay@aceknox.com>',
+    to: 'dkmullen@gmail.com',
+    subject: 'A new contestant for the ACE Safer@Home Shakespeare Contest!',
+    text: 'No plain text version',
+    html: `<b>ACE Shakespeare Contest Sign-up</b> (from aceknox.com)<br />
+            <p>A new contestant has signed up for the ACE Shakespeare Contest:</p>
+            Name: ${post.name}<br />
+            Age: ${post.age}<br />
+            Email: ${post.email}<br />
+            Grade: ${post.grade}<br />
+            School: ${post.school}<br /><br />
+            Video Link: ${post.link}<br />`
+  });
+  console.log('Message sent: %s', info.messageId);
+
+  let resMsg = await transporter.sendMail({
+    from: '"ACE Safer@Home Shakespeare Contest" <jay@aceknox.com>',
+    to: `${post.email}`,
+    subject: 'You have registered for the ACE Safer@Home Shakespeare Contest!',
+    text: 'No plain text version',
+    html: `<b>ACE Safer@Home Shakespeare Contest</b> (from aceknox.com)<br />
+            <p>You have successfully registered for the ACE Safer@Home Shakespeare Contest:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
