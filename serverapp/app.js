@@ -199,7 +199,7 @@ let transporter = nodemailer.createTransport({
 async function dance(post) {
   let info = await transporter.sendMail({
     from: '"ACE Safer@Home Dance Form" <jay@aceknox.com>',
-    to: 'dkmullen@gmail.com',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Safer@Home Dance Contest!',
     text: 'No plain text version',
     html: `<b>ACE Dance Contest Sign-up</b> (from aceknox.com)<br />
@@ -234,7 +234,7 @@ async function dance(post) {
 async function instrumental(post) {
   let info = await transporter.sendMail({
     from: '"ACE Safer@Home Shakespeare Form" <jay@aceknox.com>',
-    to: 'dkmullen@gmail.com',
+    to: 'jay@aceknox.com, dkmullen@gmail.com',
     subject: 'A new contestant for the ACE Safer@Home Shakespeare Contest!',
     text: 'No plain text version',
     html: `<b>ACE Shakespeare Contest Sign-up</b> (from aceknox.com)<br />
