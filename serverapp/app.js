@@ -21,6 +21,7 @@ const ActingTeamPost = require('./models/actingteamposts');
 const TheatreCampPost = require('./models/theatre-class-posts');
 const InstrumentalPost = require('./models/instrumentalpost');
 const DancePost = require('./models/saferathomeposts');
+const ShakesClassPost = require('./models/shakesclass-posts');
 
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
@@ -36,21 +37,19 @@ app.use((req, res, next) => {
   next();
 });
 
-// Dance entry form (individual)
-app.post("/api/dance-posts", (req, res, next) => {
-  const dancepost = new DancePost({
+// Shakes Class entry form (individual)
+app.post("/api/shakesclass-posts", (req, res, next) => {
+  const shakesclasspost = new ShakesClassPost({
     name: req.body.name,
     email: req.body.email,
     age: req.body.age,
-    grade: req.body.grade,
-    school: req.body.school,
-    link: req.body.link,
+    // phone: req.body.phone
   })
-  dancepost.save();
+  shakesclasspost.save();
   res.status(201).json({
     message: 'Post added successfully'
   });
-  dance(dancepost).catch(console.error);
+  shakesclass(shakesclasspost).catch(console.error);
 });
 
 // Instrumental entry form (individual)
@@ -196,36 +195,35 @@ let transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-async function dance(post) {
+async function shakesclass(post) {
   let info = await transporter.sendMail({
-    from: '"ACE Safer@Home Dance Form" <jay@aceknox.com>',
-    to: 'jay@aceknox.com, dkmullen@gmail.com',
-    subject: 'A new contestant for the ACE Safer@Home Dance Contest!',
+    from: '"ACE online Shakespeare Monologue Class Form" <jay@aceknox.com>',
+    to: 'dkmullen@gmail.com',
+    subject: 'A new member for the online ACE Shakespeare Monologue Class!',
     text: 'No plain text version',
-    html: `<b>ACE Dance Contest Sign-up</b> (from aceknox.com)<br />
-            <p>A new contestant has signed up for the ACE Dance Contest:</p>
+    html: `<b>ACE online Shakespeare Monologue Class</b> (from aceknox.com)<br />
+            <p>A new student has signed up for the ACE online Shakespeare Monologue Class:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
-            Grade: ${post.grade}<br />
-            School: ${post.school}<br /><br />
-            Video Link: ${post.link}<br />`
+            `
   });
   console.log('Message sent: %s', info.messageId);
 
   let resMsg = await transporter.sendMail({
-    from: '"ACE Safer@Home Dance Contest" <jay@aceknox.com>',
+    from: '"ACE online Shakespeare Monologue Class" <jay@aceknox.com>',
     to: `${post.email}`,
-    subject: 'You have registered for the ACE Safer@Home Dance Contest!',
+    subject: 'You have registered for the ACE online Shakespeare Monologue Class!',
     text: 'No plain text version',
-    html: `<b>ACE Safer@Home Dance Contest</b> (from aceknox.com)<br />
-            <p>You have successfully registered for the ACE Safer@Home Dance Contest:</p>
+    html: `<b>ACE ACE online Shakespeare Monologue Class</b> (from aceknox.com)<br />
+            <p>You have successfully registered for the ACE online Shakespeare Monologue Class:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
-            Grade: ${post.grade}<br />
-            School: ${post.school}<br /><br />
-            Video Link: ${post.link}<br />`
+            <br />
+            If you haven't paid the $75 fee, you may do so 
+            <a href="https://aceknox.com/coaching/pay">here</a>. You should receive a confirmation frpm PayPay
+            when the transaction is complete. `
   });
   console.log('Message sent: %s', resMsg.messageId);
 }
