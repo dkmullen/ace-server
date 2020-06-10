@@ -39,6 +39,7 @@ app.use((req, res, next) => {
 
 // Summer Monologue Classes entry form 
 app.post("/api/summerclass-posts", (req, res, next) => {
+  console.log(req)
   const summerclasspost = new SummerClassPost({
     name: req.body.name,
     email: req.body.email,
