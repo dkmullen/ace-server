@@ -45,7 +45,8 @@ app.post("/api/summerclass-posts", (req, res, next) => {
     email: req.body.email,
     age: req.body.age,
     teacher: req.body.teacher,
-    classname: req.body.classname
+    classname: req.body.classname,
+    coachemail: req.body.coachemail
   })
   summerclasspost.save();
   res.status(201).json({
@@ -200,14 +201,15 @@ let transporter = nodemailer.createTransport({
 async function summerclass(post) {
   let info = await transporter.sendMail({
     from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
-    to: 'dkmullen@gmail.com',
+    to: `jay@aceknox.com, dkmullen@gmail.com, ${post.coachemail}`,
     subject: `A new member for the online ${post.classname}`,
     text: 'No plain text version',
     html: `<b>ACE online ${post.classname}</b> (from aceknox.com)<br />
             <p>A new student has signed up for the ACE online ${post.classname}:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
-            Email: ${post.email}<br />
+            Email: ${post.email}<br /><br />
+            Be sure to contact your student soon about Zoom meeting access.<br />
             `
   });
   console.log('Message sent: %s', info.messageId);
@@ -217,7 +219,7 @@ async function summerclass(post) {
     to: `${post.email}`,
     subject: `You have registered for the ACE online ${post.classname}`,
     text: 'No plain text version',
-    html: `<b>ACE ACE online ${post.classname}</b> (from aceknox.com)<br />
+    html: `<b>ACE online ${post.classname}</b> (from aceknox.com)<br />
             <p>You have successfully registered for the ACE online ${post.classname}:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
@@ -225,7 +227,9 @@ async function summerclass(post) {
             <br />
             If you haven't paid the $75 fee, you may do so 
             <a href="https://aceknox.com/coaching/pay">here</a>. You should receive a confirmation from PayPal
-            when the transaction is complete. `
+            when the transaction is complete. <br />
+            <br />
+            Your coach should contact you by email soon. Please contact <a href="mailto:jay@aceknox.com">jay@aceknox.com</a> with any questions. Thank you for signing up!`
   });
   console.log('Message sent: %s', resMsg.messageId);
 }

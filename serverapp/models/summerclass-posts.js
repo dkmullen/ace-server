@@ -5,7 +5,8 @@ const postSchema = mongoose.Schema({
     email: { type: String, required: true },
     age: { type: Number, required: true },
     teacher: { type: String },
-    classname: { type: String }
+    classname: { type: String },
+    coachemail: { type: String }
 
 });
 
