@@ -239,7 +239,7 @@ async function national(post) {
             School: ${post.school}<br />
             City: ${post.city}<br />
             State: ${post.state}<br />
-            State: ${post.videolink}<br />
+            Video Link: ${post.videolink}<br />
             Musical: ${post.musical ? 'X' : ''}<br />
             Monologue: ${post.monologue ? 'X' : ''}<br /><br />
             `
@@ -261,7 +261,7 @@ async function national(post) {
             School: ${post.school}<br />
             City: ${post.city}<br />
             State: ${post.state}<br />
-            State: ${post.videolink}<br />
+            Video Link: ${post.videolink}<br />
             Musical: ${post.musical ? 'X' : ''}<br />
             Monologue: ${post.monologue ? 'X' : ''}<br /><br />
             <br />
