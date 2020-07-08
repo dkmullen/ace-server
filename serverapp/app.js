@@ -239,8 +239,9 @@ async function national(post) {
             School: ${post.school}<br />
             City: ${post.city}<br />
             State: ${post.state}<br />
-            Musical?: ${post.musical}<br />
-            Monologue?: ${post.monologue}<br /><br />
+            State: ${post.videolink}<br />
+            Musical: ${post.musical ? 'X' : ''}<br />
+            Monologue: ${post.monologue ? 'X' : ''}<br /><br />
             `
   });
   console.log('Message sent: %s', info.messageId);
@@ -260,6 +261,7 @@ async function national(post) {
             School: ${post.school}<br />
             City: ${post.city}<br />
             State: ${post.state}<br />
+            State: ${post.videolink}<br />
             Musical: ${post.musical ? 'X' : ''}<br />
             Monologue: ${post.monologue ? 'X' : ''}<br /><br />
             <br />
