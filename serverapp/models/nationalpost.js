@@ -10,8 +10,7 @@ const postSchema = mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
     videolink: { type: String, required: true },
-    musical: Boolean,
-    monologue: Boolean,
+    entryType: { type: String, required: true }
 });
 
 module.exports = mongoose.model('NationalPost', postSchema);

@@ -50,8 +50,7 @@ app.post("/api/national-posts", (req, res, next) => {
     school: req.body.school,
     city: req.body.city,
     state: req.body.state,
-    musical: req.body.musical,
-    monologue: req.body.monologue,
+    entryType: req.body.entryType,
     videolink: req.body.videolink,
   })
   nationalpost.save();
@@ -226,7 +225,7 @@ let transporter = nodemailer.createTransport({
 async function national(post) {
   let info = await transporter.sendMail({
     from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
-    to: `dkmullen@gmail.com`,
+    to: `jay@aceknox.com, dkmullen@gmail.com`,
     subject: `A new entry for The National ACE Theatre Awards`,
     text: 'No plain text version',
     html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
@@ -240,8 +239,7 @@ async function national(post) {
             City: ${post.city}<br />
             State: ${post.state}<br />
             Video Link: ${post.videolink}<br />
-            Musical: ${post.musical ? 'X' : ''}<br />
-            Monologue: ${post.monologue ? 'X' : ''}<br /><br />
+            Entry Type: ${post.entryType}<br /><br />
             `
   });
   console.log('Message sent: %s', info.messageId);
@@ -262,8 +260,7 @@ async function national(post) {
             City: ${post.city}<br />
             State: ${post.state}<br />
             Video Link: ${post.videolink}<br />
-            Musical: ${post.musical ? 'X' : ''}<br />
-            Monologue: ${post.monologue ? 'X' : ''}<br /><br />
+            Entry Type: ${post.entryType}<br /><br />
             <br />
             <br />
             Please contact <a href="mailto:jay@aceknox.com">jay@aceknox.com</a> with any questions. Thank you for signing up!`
