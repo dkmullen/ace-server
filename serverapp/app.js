@@ -226,7 +226,7 @@ let transporter = nodemailer.createTransport({
 async function national(post) {
   let info = await transporter.sendMail({
     from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
-    to: `jay@aceknox.com, dkmullen@gmail.com`,
+    to: `dkmullen@gmail.com`,
     subject: `A new entry for The National ACE Theatre Awards`,
     text: 'No plain text version',
     html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
