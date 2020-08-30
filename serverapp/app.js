@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const app = express();
 
-mongoose.connect(process.env.MLAB_CREDS, 
+mongoose.connect(process.env.ATLAS_CREDS, 
     { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Connected to database');
