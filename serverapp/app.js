@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require('multer');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
@@ -32,8 +33,32 @@ app.use((req, res, next) => {
   next();
 });
 
+const MIME_TYPE_MAP = {
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/jpg": "jpg"
+};
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype]; // returns null if filetype isn't in our map
+    let error = new Error('Invalid mime type');
+    if (isValid) {
+      error = null;
+    }
+    // this path below is relative to server.js file
+    cb(error, 'images'); // first arg is err state, set to null if none
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split(' ').join('-'); // spaces to dashes
+    const ext = MIME_TYPE_MAP[file.mimetype]; // get the right extention
+    cb(null, name + '-' + Date.now() + '.' + ext); // make a unique filename
+  }
+});
+
 // Generic Signup form 
-app.post("/api/signup-posts", (req, res, next) => {
+app.post("/api/signup-posts", multer({ storage: storage }).single('image'),(req, res, next) => {
+  const url = req.protocol + '://' + req.get('host');
   const signuppost = new SignupPost({
     name: req.body.name,
     email: req.body.email,
@@ -45,11 +70,27 @@ app.post("/api/signup-posts", (req, res, next) => {
     state: req.body.state,
     entryType: req.body.entryType,
     videolink: req.body.videolink,
-    imagePath: req.body.imagePath
+    imagePath: url + '/images/' + req.file.filename
   })
-  signuppost.save();
-  res.status(201).json({
-    message: 'Post added successfully'
+  signuppost.save()
+  .then(createdPost => {
+    res.status(201).json({
+      message: 'Post added successfully',
+      signupPost: {
+        postId: createdPost._id,
+        name: createdPost.name,
+        email: createdPost.email,
+        phone: createdPost.phone,
+        age: createdPost.age,
+        grade: createdPost.grade,
+        school: createdPost.school,
+        city: createdPost.city,
+        state: createdPost.state,
+        entryType: createdPost.entryType,
+        videolink: createdPost.videolink,
+        imagePath: createdPost.imagePath
+      }    
+    })
   });
   signup(signuppost).catch(console.error);
 });
@@ -107,6 +148,7 @@ async function signup(post) {
             City: ${post.city}<br />
             State: ${post.state}<br />
             Video Link: ${post.videolink}<br />
+            Image: ${post.imagePath}<br />
             Entry Type: ${post.entryType}<br /><br />
             `
   });
