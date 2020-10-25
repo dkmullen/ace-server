@@ -95,6 +95,24 @@ app.post("/api/signup-posts", multer({ storage: storage }).single('image'),(req,
   signup(signuppost).catch(console.error);
 });
 
+app.get('/api/signup-posts', (req, res, next) => {
+  SignupPost.find()
+  .then(documents => {
+    console.log(documents)
+    res.status(200).json({
+      message: 'Posts fetched successfully',
+      posts: documents,
+    })
+  })
+
+    // })
+    .catch(error => { // catch block is for technical errors
+      res.status(500).json({
+        message: 'Fetching posts failed.'
+      });
+    });
+})
+
 // National Contest entry form 
 app.post("/api/national-posts", (req, res, next) => {
   const nationalpost = new NationalPost({
