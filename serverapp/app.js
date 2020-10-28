@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const multer = require('multer');
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
@@ -15,6 +16,7 @@ mongoose.connect(process.env.ATLAS_CREDS,
 })
 
 app.use(bodyParser.json());
+app.use("/images", express.static(path.join('images')));
 
 const SignupPost = require('./models/signup-post');
 const NationalPost = require('./models/nationalpost');
