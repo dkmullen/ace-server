@@ -72,8 +72,12 @@ app.post("/api/signup-posts", multer({ storage: storage }).single('image'),(req,
     state: req.body.state,
     entryType: req.body.entryType,
     videolink: req.body.videolink,
-    imagePath: url + '/images/' + req.file.filename
-  })
+  });
+
+  if (req.file && req.file.filename) {
+    signuppost.imagePath = url + '/images/' + req.file.filename;
+  };
+
   signuppost.save()
   .then(createdPost => {
     res.status(201).json({
