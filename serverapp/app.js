@@ -18,9 +18,6 @@ mongoose.connect(process.env.ATLAS_CREDS,
 app.use(bodyParser.json());
 app.use("/images", express.static(path.join('images')));
 
-const SignupPost = require('./models/signup-post');
-const NationalPost = require('./models/nationalpost');
-
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

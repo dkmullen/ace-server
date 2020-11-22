@@ -14,7 +14,7 @@ router.post('', extractFile, PostController.createPost);
 
 // router.get("/:id", PostController.getPost);
 
-// router.delete('/:id', PostController.deletePost);
+router.delete('/:id', PostController.deletePost);
 // router.deleteAll(PostController.deletePosts);
 
 module.exports = router;
