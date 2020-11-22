@@ -22,11 +22,38 @@ exports.createPost = (req, res, next) => {
   })
   .catch(error => {
     res.status(500).json({
-      message: "Creating a post failed!"
+      message: 'Creating a post failed!'
     });
   });
   EmailService.email.signup(signuppost).catch(console.error);
 }
+
+exports.updatePost = (req, res, next) => {
+  console.log(req.params)
+  let imagePath = req.body.imagePath;
+  if (req.file) {
+    const url = req.protocol + '://' + req.get('host');
+    imagePath = url + '/images/' + req.file.filename;
+  }
+  const postData = Object.assign(req.body, {});
+  // console.log(postData)
+  const post = new SignupPost(postData);
+  console.log(post)
+  SignupPost.updateOne({ _id: req.params.id }, post)
+    .then(result => {
+      console.log(result)
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Update successful!' });
+      } else {
+        res.status(401).json({ message: 'Not authorized!' });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'Couldn\'t udpate THE post!'
+      });
+    });
+};
 
 exports.getPosts = (req, res, next) => {
   SignupPost.find()
@@ -43,18 +70,36 @@ exports.getPosts = (req, res, next) => {
     });
 }
 
-exports.deletePost = (req, res, next) => {
-  SignupPost.deleteOne({ _id: req.params.id })
-    .then(result => {
-      if (result.n > 0) {
-        res.status(200).json({ message: "Deletion successful!" });
+exports.getPost = (req, res, next) => {
+  SignupPost.findById(req.params.id)
+    .then(post => {
+      if (post) {
+        res.status(200).json(post);
       } else {
-        res.status(401).json({ message: "Not authorized!" });
+        res.status(404).json({ message: 'Post not found!' });
       }
     })
     .catch(error => {
       res.status(500).json({
-        message: "Deleting posts failed!"
+        message: 'Fetching post failed!'
+      });
+    });
+};
+
+exports.deletePost = (req, res, next) => {
+  SignupPost.deleteOne({ _id: req.params.id })
+    .then(result => {
+      if (result.n > 0) {
+        res.status(200).json({ message: 'Deletion successful!' });
+      } else {
+        // res.status(401).json({ message: 'Not authorized!' });
+        console.log(result)
+        res.status(500).json({ message: 'Now Ya effed up!'})
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'Deleting posts failed!'
       });
     });
 };
