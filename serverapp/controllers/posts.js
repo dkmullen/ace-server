@@ -29,16 +29,14 @@ exports.createPost = (req, res, next) => {
 }
 
 exports.updatePost = (req, res, next) => {
-  console.log(req.params)
   let imagePath = req.body.imagePath;
   if (req.file) {
     const url = req.protocol + '://' + req.get('host');
     imagePath = url + '/images/' + req.file.filename;
   }
   const postData = Object.assign(req.body, {});
-  // console.log(postData)
+  postData._id = req.params.id;
   const post = new SignupPost(postData);
-  console.log(post)
   SignupPost.updateOne({ _id: req.params.id }, post)
     .then(result => {
       console.log(result)
@@ -49,8 +47,9 @@ exports.updatePost = (req, res, next) => {
       }
     })
     .catch(error => {
+      console.error(error)
       res.status(500).json({
-        message: 'Couldn\'t udpate THE post!'
+        message: 'Couldn\'t udpate the post!'
       });
     });
 };
