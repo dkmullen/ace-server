@@ -37,22 +37,21 @@ async function signup(post) {
     });
     console.log('Message sent: %s', info.messageId);
 
-  } else if (post.event === 'national') {
+  } else if (post.event === 'singing') {
     let info = await transporter.sendMail({
       from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
       to: `dkmullen@gmail.com`,
-      subject: `A new entry for The National ACE Theatre Awards`,
+      subject: `A new entry for the ACE Singing Awards`,
       text: 'No plain text version',
-      html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
-              <p>A new contestant has signed up for The National ACE Theatre Awards:</p>
+      html: `<b>The ACE Singing Awards</b> (from aceknox.com)<br />
+              <p>A new contestant has signed up for The ACE Singing Awards:</p>
               Name: ${post.name}<br />
               Age: ${post.age}<br />
               Email: ${post.email}<br />
               Phone: ${post.phone}<br />
               Grade: ${post.grade}<br />
               School: ${post.school}<br />
-              City: ${post.city}<br />
-              State: ${post.state}<br />
+              Title/Author: ${post.title}<br />
               Video Link: ${post.videolink}<br />
               Entry Type: ${post.entryType}<br /><br />
               `
@@ -62,18 +61,17 @@ async function signup(post) {
     let resMsg = await transporter.sendMail({
       from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
       to: `${post.email}`,
-      subject: `You have registered for The National ACE Theatre Awards`,
+      subject: `You have registered for The ACE Singing Awards`,
       text: 'No plain text version',
-      html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
-              <p>You have successfully registered for The National ACE Theatre Awards:</p>
+      html: `<b>The ACE Singing Awards</b> (from aceknox.com)<br />
+              <p>You have successfully registered for The ACE Singing Awards:</p>
               Name: ${post.name}<br />
               Age: ${post.age}<br />
               Email: ${post.email}<br />
               Phone: ${post.phone}<br />
               Grade: ${post.grade}<br />
               School: ${post.school}<br />
-              City: ${post.city}<br />
-              State: ${post.state}<br />
+              Title/Author: ${post.title}<br />
               Video Link: ${post.videolink}<br />
               Entry Type: ${post.entryType}<br /><br />
               <br />
