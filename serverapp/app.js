@@ -8,7 +8,7 @@ const app = express();
 const postsRoutes = require("./routes/posts");
 
 // add this code
-const whitelist = ['http://localhost:4200']; // list of allow domain
+const whitelist = ['https://www.aceknox.com']; // list of allow domain
 
 const corsOptions = {
     origin: function (origin, callback) {
