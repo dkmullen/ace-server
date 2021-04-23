@@ -7,11 +7,9 @@ const postSchema = mongoose.Schema({
     age: { type: Number, required: true },
     grade: { type: String, required: true },
     school: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
+    title: { type: String, required: true },
+    entryType: { type: String, required: true },
     videolink: { type: String, required: true },
-    musical: Boolean,
-    monologue: Boolean,
 });
 
-module.exports = mongoose.model('NationalPost', postSchema);
+module.exports = mongoose.model('Singing2021Post', postSchema);

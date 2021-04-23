@@ -22,7 +22,7 @@ const TheatreCampPost = require('./models/theatre-class-posts');
 const InstrumentalPost = require('./models/instrumentalpost');
 const DancePost = require('./models/saferathomeposts');
 const SummerClassPost = require('./models/summerclass-posts');
-const NationalPost = require('./models/nationalpost');
+const Singing2021Post = require('./models/singing2021post');
 
 // Handle Cross-origin and methods
 app.use((req, res, next) => {
@@ -38,27 +38,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// National Contest entry form 
-app.post("/api/national-posts", (req, res, next) => {
+// Singing2021 Contest entry form 
+app.post("/api/singing2021-posts", (req, res, next) => {
   console.log(req)
-  const nationalpost = new NationalPost({
+  const singingpost = new Singing2021Post({
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
     age: req.body.age,
     grade: req.body.grade,
     school: req.body.school,
-    city: req.body.city,
-    state: req.body.state,
-    musical: req.body.musical,
-    monologue: req.body.monologue,
+    title: req.body.title,
+    entryType: req.body.entryType,
     videolink: req.body.videolink,
   })
-  nationalpost.save();
+  singingpost.save();
   res.status(201).json({
     message: 'Post added successfully'
   });
-  national(nationalpost).catch(console.error);
+  singing(singingpost).catch(console.error);
 });
 
 
@@ -223,24 +221,24 @@ let transporter = nodemailer.createTransport({
 });
 
 // async..await is not allowed in global scope, must use a wrapper
-async function national(post) {
+async function singing(post) {
   let info = await transporter.sendMail({
     from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
     to: `dkmullen@gmail.com`,
-    subject: `A new entry for The National ACE Theatre Awards`,
+    subject: `A new entry for The ACE Singing Awards`,
     text: 'No plain text version',
-    html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
-            <p>A new contestant has signed up for The National ACE Theatre Awards:</p>
+    html: `<b>The ACE Singing Awards</b> (from aceknox.com)<br />
+            <p>A new contestant has signed up for The ACE Singing Awards:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
             Phone: ${post.phone}<br />
             Grade: ${post.grade}<br />
             School: ${post.school}<br />
-            City: ${post.city}<br />
-            State: ${post.state}<br />
-            Musical?: ${post.musical}<br />
-            Monologue?: ${post.monologue}<br /><br />
+            Title: ${post.city}<br />
+            Videolink: ${post.videolink}<br />
+            Entry Type: ${post.entryType}<br />
+            <br />
             `
   });
   console.log('Message sent: %s', info.messageId);
@@ -248,20 +246,20 @@ async function national(post) {
   let resMsg = await transporter.sendMail({
     from: '"ACE: The Alliance for Creative Excellence" <jay@aceknox.com>',
     to: `${post.email}`,
-    subject: `You have registered for The National ACE Theatre Awards`,
+    subject: `You have registered for The ACE Singing Awards`,
     text: 'No plain text version',
-    html: `<b>The National ACE Theatre Awards</b> (from aceknox.com)<br />
-            <p>You have successfully registered for The National ACE Theatre Awards:</p>
+    html: `<b>The ACE Singing Awards</b> (from aceknox.com)<br />
+            <p>You have successfully registered for The ACE Singing Awards:</p>
             Name: ${post.name}<br />
             Age: ${post.age}<br />
             Email: ${post.email}<br />
             Phone: ${post.phone}<br />
             Grade: ${post.grade}<br />
             School: ${post.school}<br />
-            City: ${post.city}<br />
-            State: ${post.state}<br />
-            Musical?: ${post.musical}<br />
-            Monologue?: ${post.monologue}<br /><br />
+            Title: ${post.title}<br />
+            Entry Type: ${post.entryType}<br />
+            Video Link: ${post.videolink}<br />
+            <br />
             <br />
             <br />
             Please contact <a href="mailto:jay@aceknox.com">jay@aceknox.com</a> with any questions. Thank you for signing up!`
