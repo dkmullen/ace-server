@@ -1,4 +1,4 @@
-const SignupPost = require('../models/singing2021-posts');
+const SignupPost = require('../models/signup-post');
 const EmailService = require('../services/email-service');
 
 exports.createPost = (req, res, next) => {
