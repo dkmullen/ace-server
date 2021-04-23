@@ -2,6 +2,7 @@ const SignupPost = require('../models/singing2021-posts');
 const EmailService = require('../services/email-service');
 
 exports.createPost = (req, res, next) => {
+  console.log('here', req, res)
   const url = req.protocol + '://' + req.get('host');
   const postData = Object.assign(req.body, {});
   const signuppost = new SignupPost(postData);
