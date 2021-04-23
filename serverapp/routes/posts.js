@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('', PostController.getPosts);
 
 // extractFile is for attaching a photo to the submission
-router.post('', extractFile, PostController.createPost);
+router.post('', PostController.createPost);
 
 router.put('/:id', extractFile, PostController.updatePost);
 
